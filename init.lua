@@ -32,7 +32,7 @@ vim.keymap.set("n", "k", [[v:count ? 'k' : 'gk']], { noremap = true, expr = true
 -- g-j 和 g-k 实现可视行的上下移动而不是实际行
 
 -- 重新加载上次的会话
-vim.api.nvim_set_keymap("n", "<C-a>", [[<cmd>lua require("persistence").load()<cr>]], {})
+vim.api.nvim_set_keymap("n", "<C-a>", [[<cmd>lua require("persistence").load()<CR>]], {})
 
 -- C/C++/Json/Java等 Ctrl+/ 快速添加 "// " 注释, 配合V-Block 可实现批量注释
 vim.api.nvim_create_autocmd({"FileType"}, {
@@ -40,6 +40,14 @@ vim.api.nvim_create_autocmd({"FileType"}, {
     callback = function()
         vim.api.nvim_set_keymap("n", "<C-/>", "I// <Esc>", {silent = true})
         vim.api.nvim_set_keymap("x", "<C-/>", "I// <Esc>", {silent = true})
+    end
+})
+
+-- C/C++ Ctrl+K 快捷 Clang-Format 格式化
+vim.api.nvim_create_autocmd({"FileType"}, {
+    pattern = {"c", "cpp", "cc", "hpp", "h"},
+    callback = function()
+        vim.api.nvim_set_keymap("n", "<C-K>", ":lua vim.lsp.buf.format()<CR>", mapOpt)
     end
 })
 
@@ -272,7 +280,7 @@ cmp.setup({
             before = function (entry, vim_item)
                 return vim_item
             end
-        })
+        }),
     },
     window = {
         -- 窗口边框
@@ -311,13 +319,24 @@ cmp.setup({
         end, { "i", "s" }),
     }),
     sources = cmp.config.sources({
-        { name = 'nvim_lsp' },
+        {
+            name = 'nvim_lsp',
+            -- 过滤掉 来自nvim_lsp的Text类型的补全 
+            entry_filter = function (entry, ctx)
+                local kind = vim.lsp.protocol.CompletionItemKind[entry:get_kind()]
+
+                if kind == "Text" then
+                    return false
+                end
+                return true
+            end
+        },
         { name = 'luasnip' }, -- For luasnip users.
     },
     {
         { name = 'buffer' },
+        { name = 'path' },
     }),
-
 })
 
 -- Set configuration for specific filetype.
