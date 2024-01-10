@@ -8,7 +8,9 @@ set.softtabstop = 4             -- 软制表符长度
 set.tabstop = 4                 -- 硬制表符长度
 set.shiftwidth = 4              -- 缩进长度 
 set.clipboard = "unnamedplus"   -- 设置系统剪切板
-vim.opt.termguicolors = true
+set.scrolloff = 999             -- 光标所在行始终居中
+set.mouse = ""                  -- 关闭鼠标
+set.termguicolors = true
 
 -- 设置UTF-8编码
 set.fileencodings = "utf-8,ucs-bom,gb18030,gbk,gb2312,cp936"
@@ -26,6 +28,14 @@ vim.api.nvim_create_autocmd({"TextYankPost"}, {
 })
 
 local mapOpt = { noremap = true, silent = true }
+vim.keymap.set("n", "<C-S>", ":w<CR>", mapOpt)      -- 普通模式 <C-S>保存
+vim.keymap.set("i", "<C-S>", "<Esc>:w<CR>", mapOpt) -- 插入模式 <C-S>保存
+vim.keymap.set("i", "jc", "<BS>", mapOpt)           -- 插入模式jc 回退键
+vim.keymap.set("i", "jk", "<Esc>", mapOpt)          -- 插入模式jk ESC
+vim.keymap.set("i", "jg", "<End>", mapOpt)          -- 插入模式jg 行尾
+vim.keymap.set("i", "ja", "<Home>", mapOpt)         -- 插入模式ja 行头
+vim.keymap.set("n", "L", "<End>", mapOpt)           -- 普通模式<S-L> 行尾
+vim.keymap.set("n", "H", "<Home>", mapOpt)          -- 普通模式<S-H> 行头
 -- https://www.reddit.com/r/vim/comments/2k4cbr/problem_with_gj_and_gk/
 vim.keymap.set("n", "j", [[v:count ? 'j' : 'gj']], { noremap = true, expr = true })
 vim.keymap.set("n", "k", [[v:count ? 'k' : 'gk']], { noremap = true, expr = true })
