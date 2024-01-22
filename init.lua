@@ -36,6 +36,10 @@ vim.keymap.set("i", "jg", "<End>", mapOpt)          -- 插入模式jg 行尾
 vim.keymap.set("i", "ja", "<Home>", mapOpt)         -- 插入模式ja 行头
 vim.keymap.set("n", "L", "<End>", mapOpt)           -- 普通模式<S-L> 行尾
 vim.keymap.set("n", "H", "<Home>", mapOpt)          -- 普通模式<S-H> 行头
+vim.keymap.set("n", "nf", ":NvimTreeFocus<CR>", mapOpt)   -- 普通模式 nf 聚焦nvim-tree
+vim.keymap.set("n", "no", ":NvimTreeOpen<CR>", mapOpt)    -- 普通模式 no 打开nvim-tree 
+vim.keymap.set("n", "<C-j>", ":BufferLineCyclePrev<CR>", mapOpt)    -- 普通模式切换上一个标签页
+vim.keymap.set("n", "<C-l>", ":BufferLineCycleNext<CR>", mapOpt)    -- 普通模式切换下一个标签页
 -- https://www.reddit.com/r/vim/comments/2k4cbr/problem_with_gj_and_gk/
 vim.keymap.set("n", "j", [[v:count ? 'j' : 'gj']], { noremap = true, expr = true })
 vim.keymap.set("n", "k", [[v:count ? 'k' : 'gk']], { noremap = true, expr = true })
@@ -219,6 +223,18 @@ require("lazy").setup({
             local bufferline = require("bufferline")
             bufferline.setup({
                 options = {
+                    mode = "tabs",
+                    offsets = {
+			            {
+				            filetype = "NvimTree",
+				            text = "File Explorer",
+				            text_align = "left",
+				            separator = true,
+			            },
+		            },
+		            buffer_close_icon = '󰅖',
+		            modified_icon = '●',
+		            close_icon = '',
                 }
             })
         end,
@@ -226,6 +242,36 @@ require("lazy").setup({
     {
         'dstein64/nvim-scrollview',
     },  -- 滚动条
+    {
+        "nvim-tree/nvim-tree.lua",
+        version = "*",
+        lazy = false,
+        dependencies = {
+            "nvim-tree/nvim-web-devicons",
+        },
+        config = function()
+            local tree = require("nvim-tree")
+            tree.setup({
+                sort = {
+                    sorter = "case_sensitive",
+                },
+                git = {
+                    enable = true,
+                },
+                view = {
+                    side = "left",
+                    width = 35,
+                },
+                renderer = {
+                    group_empty = true,
+                },
+                filters = {
+                    dotfiles = true,
+                    custom = { "node_modules" },
+                },
+            })
+        end,
+    }
 })
 
 -- 主题配置
