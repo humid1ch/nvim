@@ -227,7 +227,7 @@ require("lazy").setup({
                     offsets = {
 			            {
 				            filetype = "NvimTree",
-				            text = "File Explorer",
+				            text = "Explorer",
 				            text_align = "left",
 				            separator = true,
 			            },
