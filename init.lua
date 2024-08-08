@@ -7,14 +7,13 @@ set.expandtab = true            -- Tab插入空格
 set.softtabstop = 4             -- 软制表符长度
 set.tabstop = 4                 -- 硬制表符长度
 set.shiftwidth = 4              -- 缩进长度 
-set.clipboard = "unnamedplus"   -- 设置系统剪切板
-set.scrolloff = 999             -- 光标所在行始终居中
-set.mouse = ""                  -- 关闭鼠标
+--set.clipboard = "unnamedplus"   -- 设置系统剪切板
+set.scrolloff = 5             -- 光标所在行始终居中
+set.mouse = "a"                  -- 关闭鼠标
 set.termguicolors = true
 
 -- 设置UTF-8编码
 set.fileencodings = "utf-8,ucs-bom,gb18030,gbk,gb2312,cp936"
-set.termencoding = "utf-8"
 set.encoding = "utf-8"
 
 -- copy 高亮
@@ -93,7 +92,10 @@ require("lazy").setup({
         "catppuccin/nvim",
         name = "catppuccin",
         priority = 1000,
-        lazy = true
+        lazy = true,
+        opts = {
+            transparent_background = true
+        }
     },  -- 主题
     {
         cmd = "Telescope", -- 输入命令 nvim 才加载Telescope
@@ -217,13 +219,23 @@ require("lazy").setup({
     },  -- 状态栏
     {
         'akinsho/bufferline.nvim',
-        version = "*",
         dependencies = {'nvim-tree/nvim-web-devicons'},
         config = function ()
             local bufferline = require("bufferline")
             bufferline.setup({
+                highlights = {
+                    fill = {
+                        bg = "#24273a",
+                        fg = "#a6da95"
+                    },
+                    
+                    tab_selected = {
+                        bg = "#24273a"
+                    },
+                },
                 options = {
                     mode = "tabs",
+                    number = "ordinal",
                     offsets = {
 			            {
 				            filetype = "NvimTree",
