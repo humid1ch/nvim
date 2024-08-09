@@ -11,6 +11,7 @@ set.shiftwidth = 4              -- 缩进长度
 set.scrolloff = 5             -- 光标所在行始终居中
 set.mouse = "a"                  -- 关闭鼠标
 set.termguicolors = true
+vim.cmd("highlight Normal guibg=none ctermbg=none") -- bufferline 可能存在bug, 背景颜色是无主题nivm的颜色, 所以设置一下默认颜色为透明
 
 -- 设置UTF-8编码
 set.fileencodings = "utf-8,ucs-bom,gb18030,gbk,gb2312,cp936"
@@ -224,16 +225,77 @@ require("lazy").setup({
             local bufferline = require("bufferline")
             bufferline.setup({
                 highlights = {
+                    -- 标签栏背景 前景颜色调整
                     fill = {
                         bg = "#24273a",
                         fg = "#a6da95"
                     },
-                    
-                    tab_selected = {
-                        bg = "#24273a"
+                    buffer_selected = {
+                        bg = "#303347",
+                        fg = "#b5efbd"
                     },
+                    separator_selected = {
+                        bg = "#303347",
+                        fg = "#b5efbd"
+                    },
+                    separator = {
+                        bg = "#303347",
+                        fg = "#b5efbd"
+                    },
+                    tab_selected = {
+                        bg = "#303347",
+                        fg = "#b5efbd"
+                    },
+                    tab_separator = {
+                        bg = "#303347",
+                        fg = "#b5efbd"
+                    },
+                    tab_separator_selected = {
+                        bg = "#303347",
+                        fg = "#b5efbd"
+                    },
+                    offset_separator = {
+                        fg = "#b5efbd"
+                    },
+                    close_button_selected = {
+                        bg = "#303347",
+                        fg = "#b5efbd"
+                    },
+                    modified_selected = {
+                        bg = "#303347",
+                        fg = "#b5efbd"
+                    },
+                    error_selected = {
+                        bg = "#303347"
+                    },
+                    warning_selected = {
+                        bg = "#303347"
+                    },
+                    numbers_selected = {
+                        bg = "#303347"
+                    },
+                    diagnostic_selected = {
+                        bg = "#303347"
+                    },
+                    hint_selected = {
+                        bg = "#303347"
+                    },
+                    info_selected = {
+                        bg = "#303347"
+                    },
+                    duplicate_selected = {
+                        bg = "#303347"
+                    },
+                    indicator_selected = {
+                        bg = "#303347"
+                    },
+                    pick_selected = {
+                        bg = "#303347"
+                    },
+
                 },
                 options = {
+                    diagnostics = "nvim_lsp",
                     mode = "tabs",
                     number = "ordinal",
                     offsets = {
