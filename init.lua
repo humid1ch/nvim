@@ -11,7 +11,10 @@ set.shiftwidth = 4              -- 缩进长度
 set.scrolloff = 5             -- 光标所在行始终居中
 set.mouse = "a"                  -- 关闭鼠标
 set.termguicolors = true
-vim.cmd("highlight Normal guibg=none ctermbg=none") -- bufferline 可能存在bug, 背景颜色是无主题nivm的颜色, 所以设置一下默认颜色为透明
+vim.cmd("highlight Normal guibg=none ctermbg=none")
+-- bufferline 可能存在bug, 背景颜色是无主题nivm的颜色, 所以设置一下默认颜色为透明
+vim.cmd("autocmd BufRead,BufNewFile *.c set filetype=c")
+-- 写.c代码 调用函数, 经常出现自动包含 <cxxxxx> 这样的CPP标准头文件 会报错, nvim识别成cpp文件了 所以设置一下 .c 文件是 c文件
 
 -- 设置UTF-8编码
 set.fileencodings = "utf-8,ucs-bom,gb18030,gbk,gb2312,cp936"
@@ -40,6 +43,7 @@ vim.keymap.set("n", "nf", ":NvimTreeFocus<CR>", mapOpt)   -- 普通模式 nf 聚
 vim.keymap.set("n", "no", ":NvimTreeOpen<CR>", mapOpt)    -- 普通模式 no 打开nvim-tree 
 vim.keymap.set("n", "<C-j>", ":BufferLineCyclePrev<CR>", mapOpt)    -- 普通模式切换上一个标签页
 vim.keymap.set("n", "<C-l>", ":BufferLineCycleNext<CR>", mapOpt)    -- 普通模式切换下一个标签页
+vim.keymap.set("n", "<C-h>", ":AT<CR>", mapOpt)    -- C/CPP相互切换源文件和.h文件
 -- https://www.reddit.com/r/vim/comments/2k4cbr/problem_with_gj_and_gk/
 vim.keymap.set("n", "j", [[v:count ? 'j' : 'gj']], { noremap = true, expr = true })
 vim.keymap.set("n", "k", [[v:count ? 'k' : 'gk']], { noremap = true, expr = true })
@@ -167,7 +171,7 @@ require("lazy").setup({
                 sources = {
                     -- "/home/July/.clang_format"
                     null_ls.builtins.formatting.clang_format.with({
-                        filetypes = { "c", "cpp", "cc" },
+                        filetypes = { "c", "cpp", "cc", "hpp", "h" },
                         extra_args = { "-style={ BasedOnStyle: LLVM, IndentWidth: 4, TabWidth: 4, UseTab: Always, AccessModifierOffset: -4, ColumnLimit: 0, BreakBeforeBraces: Custom, BraceWrapping: { AfterClass: false, AfterControlStatement: false, AfterEnum: false, AfterFunction: false, AfterNamespace: false, AfterObjCDeclaration: false, AfterStruct: false, AfterUnion: false, BeforeCatch: true, BeforeElse: true, IndentBraces: false}, ConstructorInitializerAllOnOneLineOrOnePerLine: false, ConstructorInitializerIndentWidth: 4, IndentCaseLabels: false, MaxEmptyLinesToKeep: 1, PointerAlignment: Left, ReflowComments: false, SortIncludes: false, NamespaceIndentation: All, ContinuationIndentWidth: 4, AllowAllArgumentsOnNextLine: false, AllowAllParametersOfDeclarationOnNextLine: false, AllowShortBlocksOnASingleLine: false, AllowShortCaseLabelsOnASingleLine: false, AllowShortFunctionsOnASingleLine: Empty, AllowShortIfStatementsOnASingleLine: false, AllowShortLoopsOnASingleLine: false, AlwaysBreakTemplateDeclarations: true, BreakConstructorInitializersBeforeComma: true, BinPackArguments: true, BinPackParameters: true}" },
                     }),
                     null_ls.builtins.completion.spell,
@@ -345,6 +349,9 @@ require("lazy").setup({
                 },
             })
         end,
+    },
+    {
+        'vim-scripts/a.vim',    -- :A 切换.h 与对应源文件
     }
 })
 
@@ -411,6 +418,8 @@ cmp.setup({
                 return vim_item
             end
         }),
+        fields = { 'kind', 'abbr', 'menu' },
+        expandable_indicator = true
     },
     window = {
         -- 窗口边框
