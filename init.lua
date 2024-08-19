@@ -56,8 +56,8 @@ vim.api.nvim_set_keymap("n", "<C-a>", [[<cmd>lua require("persistence").load()<C
 vim.api.nvim_create_autocmd({"FileType"}, {
     pattern = {"c", "cpp", "cc", "hpp", "h", "java", "json", "js", "go"},
     callback = function()
-        vim.api.nvim_set_keymap("n", "<C-/>", "I// <Esc>", {silent = true})
-        vim.api.nvim_set_keymap("x", "<C-/>", "I// <Esc>", {silent = true})
+        vim.api.nvim_set_keymap("n", "<C-_>", "I// <Esc>", {silent = true})
+        vim.api.nvim_set_keymap("x", "<C-_>", "I// <Esc>", {silent = true})
     end
 })
 
@@ -73,8 +73,8 @@ vim.api.nvim_create_autocmd({"FileType"}, {
 vim.api.nvim_create_autocmd({"FileType"}, {
     pattern = {"lua"},
     callback = function()
-        vim.api.nvim_set_keymap("n", "<C-/>", "I-- <Esc>", {silent = true})
-        vim.api.nvim_set_keymap("x", "<C-/>", "I-- <Esc>", {silent = true})
+        vim.api.nvim_set_keymap("n", "<C-_>", "I-- <Esc>", {silent = true})
+        vim.api.nvim_set_keymap("x", "<C-_>", "I-- <Esc>", {silent = true})
     end
 })
 
