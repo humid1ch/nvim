@@ -1,49 +1,54 @@
-local set = vim.o
+local set = vim.opt
 
-set.number = true               -- 行号
-set.relativenumber = true       -- 相对行号
-set.cursorline = true           -- 光标线
-set.expandtab = true            -- Tab插入空格
-set.softtabstop = 4             -- 软制表符长度
-set.tabstop = 4                 -- 硬制表符长度
-set.shiftwidth = 4              -- 缩进长度 
---set.clipboard = "unnamedplus"   -- 设置系统剪切板
+set.number = true             -- 行号
+set.relativenumber = true     -- 相对行号
+set.cursorline = true         -- 光标线
+set.expandtab = true          -- Tab插入空格
+set.softtabstop = 4           -- 软制表符长度
+set.tabstop = 4               -- 硬制表符长度
+set.shiftwidth = 4            -- 缩进长度
+set.clipboard = "unnamedplus" -- 设置系统剪切板
 set.scrolloff = 5             -- 光标所在行始终居中
-set.mouse = "a"                  -- 关闭鼠标
+set.mouse = "a"               -- 关闭鼠标
 set.termguicolors = true
 vim.cmd("highlight Normal guibg=none ctermbg=none")
 -- bufferline 可能存在bug, 背景颜色是无主题nivm的颜色, 所以设置一下默认颜色为透明
-vim.cmd("autocmd BufRead,BufNewFile *.c set filetype=c")
--- 写.c代码 调用函数, 经常出现自动包含 <cxxxxx> 这样的CPP标准头文件 会报错, nvim识别成cpp文件了 所以设置一下 .c 文件是 c文件
+
+vim.api.nvim_create_autocmd({ "BufNewFile", "BufRead" }, {
+    pattern = "*.hpp",
+    callback = function()
+        vim.bo.filetype = "cpp"
+    end
+})
 
 -- 设置UTF-8编码
 set.fileencodings = "utf-8,ucs-bom,gb18030,gbk,gb2312,cp936"
 set.encoding = "utf-8"
 
 -- copy 高亮
-vim.api.nvim_create_autocmd({"TextYankPost"}, {
-        pattern = {"*"},
-        callback = function()
-            vim.highlight.on_yank({
-                timeout = 300,
-            })
-        end,
+vim.api.nvim_create_autocmd({ "TextYankPost" }, {
+    pattern = { "*" },
+    callback = function()
+        vim.highlight.on_yank({
+            timeout = 300,
+        })
+    end,
 })
 
 local mapOpt = { noremap = true, silent = true }
-vim.keymap.set("n", "<C-S>", ":w<CR>", mapOpt)      -- 普通模式 <C-S>保存
-vim.keymap.set("i", "<C-S>", "<Esc>:w<CR>", mapOpt) -- 插入模式 <C-S>保存
-vim.keymap.set("i", "jc", "<BS>", mapOpt)           -- 插入模式jc 回退键
-vim.keymap.set("i", "jk", "<Esc>", mapOpt)          -- 插入模式jk ESC
-vim.keymap.set("i", "jg", "<End>", mapOpt)          -- 插入模式jg 行尾
-vim.keymap.set("i", "ja", "<Home>", mapOpt)         -- 插入模式ja 行头
-vim.keymap.set("n", "L", "<End>", mapOpt)           -- 普通模式<S-L> 行尾
-vim.keymap.set("n", "H", "<Home>", mapOpt)          -- 普通模式<S-H> 行头
-vim.keymap.set("n", "nf", ":NvimTreeFocus<CR>", mapOpt)   -- 普通模式 nf 聚焦nvim-tree
-vim.keymap.set("n", "no", ":NvimTreeOpen<CR>", mapOpt)    -- 普通模式 no 打开nvim-tree 
-vim.keymap.set("n", "<C-j>", ":BufferLineCyclePrev<CR>", mapOpt)    -- 普通模式切换上一个标签页
-vim.keymap.set("n", "<C-l>", ":BufferLineCycleNext<CR>", mapOpt)    -- 普通模式切换下一个标签页
-vim.keymap.set("n", "<C-h>", ":AT<CR>", mapOpt)    -- C/CPP相互切换源文件和.h文件
+vim.keymap.set("n", "<C-S>", ":w<CR>", mapOpt)                   -- 普通模式 <C-S>保存
+vim.keymap.set("i", "<C-S>", "<Esc>:w<CR>", mapOpt)              -- 插入模式 <C-S>保存
+vim.keymap.set("i", "jc", "<BS>", mapOpt)                        -- 插入模式jc 回退键
+vim.keymap.set("i", "jk", "<Esc>", mapOpt)                       -- 插入模式jk ESC
+vim.keymap.set("i", "jg", "<End>", mapOpt)                       -- 插入模式jg 行尾
+vim.keymap.set("i", "ja", "<Home>", mapOpt)                      -- 插入模式ja 行头
+vim.keymap.set("n", "L", "<End>", mapOpt)                        -- 普通模式<S-L> 行尾
+vim.keymap.set("n", "H", "<Home>", mapOpt)                       -- 普通模式<S-H> 行头
+vim.keymap.set("n", "nf", ":NvimTreeFocus<CR>", mapOpt)          -- 普通模式 nf 聚焦nvim-tree
+vim.keymap.set("n", "no", ":NvimTreeOpen<CR>", mapOpt)           -- 普通模式 no 打开nvim-tree
+vim.keymap.set("n", "<C-j>", ":BufferLineCyclePrev<CR>", mapOpt) -- 普通模式切换上一个标签页
+vim.keymap.set("n", "<C-l>", ":BufferLineCycleNext<CR>", mapOpt) -- 普通模式切换下一个标签页
+vim.keymap.set("n", "<C-h>", ":AT<CR>", mapOpt)                  -- C/CPP相互切换源文件和.h文件
 -- https://www.reddit.com/r/vim/comments/2k4cbr/problem_with_gj_and_gk/
 vim.keymap.set("n", "j", [[v:count ? 'j' : 'gj']], { noremap = true, expr = true })
 vim.keymap.set("n", "k", [[v:count ? 'k' : 'gk']], { noremap = true, expr = true })
@@ -53,28 +58,28 @@ vim.keymap.set("n", "k", [[v:count ? 'k' : 'gk']], { noremap = true, expr = true
 vim.api.nvim_set_keymap("n", "<C-a>", [[<cmd>lua require("persistence").load()<CR>]], {})
 
 -- C/C++/Json/Java等 Ctrl+/ 快速添加 "// " 注释, 配合V-Block 可实现批量注释
-vim.api.nvim_create_autocmd({"FileType"}, {
-    pattern = {"c", "cpp", "cc", "hpp", "h", "java", "json", "js", "go"},
+vim.api.nvim_create_autocmd({ "FileType" }, {
+    pattern = { "c", "cpp", "cc", "hpp", "h", "java", "json", "js", "go" },
     callback = function()
-        vim.api.nvim_set_keymap("n", "<C-_>", "I// <Esc>", {silent = true})
-        vim.api.nvim_set_keymap("x", "<C-_>", "I// <Esc>", {silent = true})
+        vim.api.nvim_set_keymap("n", "<C-_>", "I// <Esc>", { silent = true })
+        vim.api.nvim_set_keymap("x", "<C-_>", "I// <Esc>", { silent = true })
     end
 })
 
 -- C/C++ Ctrl+K 快捷 Clang-Format 格式化
-vim.api.nvim_create_autocmd({"FileType"}, {
-    pattern = {"c", "cpp", "cc", "hpp", "h"},
+vim.api.nvim_create_autocmd({ "FileType" }, {
+    pattern = { "c", "cpp", "cc", "hpp", "h" },
     callback = function()
         vim.api.nvim_set_keymap("n", "<C-K>", ":lua vim.lsp.buf.format()<CR>", mapOpt)
     end
 })
 
 -- lua Ctrl+/ 快速添加 "-- " 注释, 配合V-Block 可实现批量注释
-vim.api.nvim_create_autocmd({"FileType"}, {
-    pattern = {"lua"},
+vim.api.nvim_create_autocmd({ "FileType" }, {
+    pattern = { "lua" },
     callback = function()
-        vim.api.nvim_set_keymap("n", "<C-_>", "I-- <Esc>", {silent = true})
-        vim.api.nvim_set_keymap("x", "<C-_>", "I-- <Esc>", {silent = true})
+        vim.api.nvim_set_keymap("n", "<C-_>", "I-- <Esc>", { silent = true })
+        vim.api.nvim_set_keymap("x", "<C-_>", "I-- <Esc>", { silent = true })
     end
 })
 
@@ -101,19 +106,20 @@ require("lazy").setup({
         opts = {
             transparent_background = true
         }
-    },  -- 主题
+    },                     -- 主题
     {
         cmd = "Telescope", -- 输入命令 nvim 才加载Telescope
         keys = {
             -- {"keymap", "command", desc = ""},
-            {"<C-i>", ":Telescope find_files<CR>",  desc = "find_files"},   -- 文件名搜索文件
-            {"<C-f>", ":Telescope live_grep<CR>",   desc = "live_grep"},    -- 内容搜索
-            {"<C-r>", ":Telescope resume<CR>",      desc = "resume"},       -- 打开上次搜索
-            {"<C-o>", ":Telescope oldfiles<CR>",    desc = "oldfiles"},     -- 历史打开文件
+            { "<C-i>", ":Telescope find_files<CR>", desc = "find_files" }, -- 文件名搜索文件
+            { "<C-f>", ":Telescope live_grep<CR>",  desc = "live_grep" },  -- 内容搜索
+            { "<C-r>", ":Telescope resume<CR>",     desc = "resume" },     -- 打开上次搜索
+            { "<C-o>", ":Telescope oldfiles<CR>",   desc = "oldfiles" },   -- 历史打开文件
         },
-        'nvim-telescope/telescope.nvim', tag = '0.1.5',
+        'nvim-telescope/telescope.nvim',
+        tag = '0.1.5',
         dependencies = { 'nvim-lua/plenary.nvim' }
-    },  -- 搜索
+    }, -- 搜索
     {
         "williamboman/mason.nvim",
         event = "VeryLazy", -- 打开nvim 显示UI之后再进行加载
@@ -129,11 +135,11 @@ require("lazy").setup({
                 }
             })
         end
-    },  -- lsp 安装管理
+    }, -- lsp 安装管理
     {
         "neovim/nvim-lspconfig",
         dependencies = { 'williamboman/mason-lspconfig.nvim' }
-    },  -- lsp 配置
+    }, -- lsp 配置
     {
         "hrsh7th/nvim-cmp",
         dependencies = {
@@ -150,7 +156,7 @@ require("lazy").setup({
             -- 选项图标
             'onsails/lspkind-nvim',
         }
-    },  -- lsp 补全
+    }, -- lsp 补全
     {
         "folke/neodev.nvim",
         event = "VeryLazy",
@@ -161,7 +167,7 @@ require("lazy").setup({
         config = function()
             require("nvim-autopairs").setup({})
         end,
-    },  -- 自动括号
+    }, -- 自动括号
     {
         event = "VeryLazy",
         "jose-elias-alvarez/null-ls.nvim",
@@ -169,24 +175,25 @@ require("lazy").setup({
             local null_ls = require("null-ls")
             null_ls.setup({
                 sources = {
-                    -- "/home/July/.clang_format"
                     null_ls.builtins.formatting.clang_format.with({
                         filetypes = { "c", "cpp", "cc", "hpp", "h" },
-                        extra_args = { "-style={ BasedOnStyle: LLVM, IndentWidth: 4, TabWidth: 4, UseTab: Always, AccessModifierOffset: -4, ColumnLimit: 0, BreakBeforeBraces: Custom, BraceWrapping: { AfterClass: false, AfterControlStatement: false, AfterEnum: false, AfterFunction: false, AfterNamespace: false, AfterObjCDeclaration: false, AfterStruct: false, AfterUnion: false, BeforeCatch: true, BeforeElse: true, IndentBraces: false}, ConstructorInitializerAllOnOneLineOrOnePerLine: false, ConstructorInitializerIndentWidth: 4, IndentCaseLabels: false, MaxEmptyLinesToKeep: 1, PointerAlignment: Left, ReflowComments: false, SortIncludes: false, NamespaceIndentation: All, ContinuationIndentWidth: 4, AllowAllArgumentsOnNextLine: false, AllowAllParametersOfDeclarationOnNextLine: false, AllowShortBlocksOnASingleLine: false, AllowShortCaseLabelsOnASingleLine: false, AllowShortFunctionsOnASingleLine: Empty, AllowShortIfStatementsOnASingleLine: false, AllowShortLoopsOnASingleLine: false, AlwaysBreakTemplateDeclarations: true, BreakConstructorInitializersBeforeComma: true, BinPackArguments: true, BinPackParameters: true}" },
+                        extra_args = {
+                            "-style=file:" .. vim.fn.expand("~/.config/nvim/clang_format/.clang_format"),
+                        },
                     }),
                     null_ls.builtins.completion.spell,
                 },
             })
         end,
-    },  -- lsp服务器
+    }, -- lsp服务器
     {
         "folke/persistence.nvim",
         event = "BufReadPre",
-        config = function ()
+        config = function()
             local persistence = require("persistence")
             persistence.setup({})
         end,
-    },  -- 会话保持
+    }, -- 会话保持
     {
         "nathom/filetype.nvim",
         lazy = true,
@@ -200,11 +207,11 @@ require("lazy").setup({
                 }
             })
         end
-    },  -- 文件类型识别
+    }, -- 文件类型识别
     {
         'nvim-lualine/lualine.nvim',
         dependencies = { 'nvim-tree/nvim-web-devicons' },
-        config = function ()
+        config = function()
             local lualine = require("lualine")
             local luaTheme = require("lualine.themes.modus-vivendi")
             luaTheme.normal.c.bg = 'transparent_background'
@@ -221,11 +228,11 @@ require("lazy").setup({
                 }
             })
         end
-    },  -- 状态栏
+    }, -- 状态栏
     {
         'akinsho/bufferline.nvim',
-        dependencies = {'nvim-tree/nvim-web-devicons'},
-        config = function ()
+        dependencies = { 'nvim-tree/nvim-web-devicons' },
+        config = function()
             local bufferline = require("bufferline")
             bufferline.setup({
                 highlights = {
@@ -303,23 +310,23 @@ require("lazy").setup({
                     mode = "tabs",
                     number = "ordinal",
                     offsets = {
-			            {
-				            filetype = "NvimTree",
-				            text = "Explorer",
-				            text_align = "left",
-				            separator = true,
-			            },
-		            },
-		            buffer_close_icon = '󰅖',
-		            modified_icon = '●',
-		            close_icon = '',
+                        {
+                            filetype = "NvimTree",
+                            text = "Explorer",
+                            text_align = "left",
+                            separator = true,
+                        },
+                    },
+                    buffer_close_icon = '󰅖',
+                    modified_icon = '●',
+                    close_icon = '',
                 }
             })
         end,
-    },  -- 标签栏
+    }, -- 标签栏
     {
         'dstein64/nvim-scrollview',
-    },  -- 滚动条
+    }, -- 滚动条
     {
         "nvim-tree/nvim-tree.lua",
         version = "*",
@@ -351,21 +358,43 @@ require("lazy").setup({
         end,
     },
     {
-        'vim-scripts/a.vim',    -- :A 切换.h 与对应源文件
+        'vim-scripts/a.vim', -- :A 切换.h 与对应源文件
+    },
+    {
+        "kawre/leetcode.nvim",
+        build = ":TSUpdate html",
+        dependencies = {
+            "nvim-telescope/telescope.nvim",
+            "nvim-lua/plenary.nvim", -- required by telescope
+            "MunifTanjim/nui.nvim",
+
+            -- optional
+            "nvim-treesitter/nvim-treesitter",
+            "rcarriga/nvim-notify",
+            "nvim-tree/nvim-web-devicons",
+        },
+        opts = {
+            -- configuration goes here
+            cn = { -- leetcode.cn
+                enabled = true, ---@type boolean
+                translator = true, ---@type boolean
+                translate_problems = true, ---@type boolean
+            },
+        },
     }
 })
 
 -- 主题配置
 require("catppuccin").setup({
-    flavour = "macchiato",          -- 配置使用 catppuccin-macchiato 配色
-    transparent_background = true,  -- 配置 透明背景
+    flavour = "macchiato",         -- 配置使用 catppuccin-macchiato 配色
+    transparent_background = true, -- 配置 透明背景
 })
 
 vim.cmd.colorscheme("catppuccin")
 
 -- neodev
 require("neodev").setup({
-  -- add any options here, or leave empty to use the default settings
+    -- add any options here, or leave empty to use the default settings
 })
 
 -- lspconfig
@@ -392,7 +421,7 @@ end
 
 -- 补全引擎
 local luasnip = require("luasnip")
-local cmp = require'cmp'
+local cmp = require 'cmp'
 -- 补全图标
 local lspkind = require('lspkind')
 -- 自动括号等
@@ -409,12 +438,12 @@ cmp.setup({
     formatting = {
         format = lspkind.cmp_format({
             mode = 'symbol_text', -- show only symbol annotations
-            maxwidth = 50, -- prevent the popup from showing more than provided characters (e.g 50 will not show more than 50 characters)
-                     -- can also be a function to dynamically calculate max width such as 
-                     -- maxwidth = function() return math.floor(0.45 * vim.o.columns) end,
+            maxwidth = 50,        -- prevent the popup from showing more than provided characters (e.g 50 will not show more than 50 characters)
+            -- can also be a function to dynamically calculate max width such as
+            -- maxwidth = function() return math.floor(0.45 * vim.o.columns) end,
             ellipsis_char = '...', -- when popup menu exceed maxwidth, the truncated part would show ellipsis_char instead (must define maxwidth first)
 
-            before = function (entry, vim_item)
+            before = function(entry, vim_item)
                 return vim_item
             end
         }),
@@ -436,7 +465,7 @@ cmp.setup({
         ["<Tab>"] = cmp.mapping(function(fallback)
             if cmp.visible() then
                 cmp.select_next_item()
-                -- You could replace the expand_or_jumpable() calls with expand_or_locally_jumpable() 
+                -- You could replace the expand_or_jumpable() calls with expand_or_locally_jumpable()
                 -- that way you will only jump inside the snippet region
             elseif luasnip.expand_or_jumpable() then
                 luasnip.expand_or_jump()
@@ -458,34 +487,34 @@ cmp.setup({
         end, { "i", "s" }),
     }),
     sources = cmp.config.sources({
-        {
-            name = 'nvim_lsp',
-            -- 过滤掉 来自nvim_lsp的Text类型的补全 
-            entry_filter = function (entry, ctx)
-                local kind = vim.lsp.protocol.CompletionItemKind[entry:get_kind()]
+            {
+                name = 'nvim_lsp',
+                -- 过滤掉 来自nvim_lsp的Text类型的补全
+                entry_filter = function(entry, ctx)
+                    local kind = vim.lsp.protocol.CompletionItemKind[entry:get_kind()]
 
-                if kind == "Text" then
-                    return false
+                    if kind == "Text" then
+                        return false
+                    end
+                    return true
                 end
-                return true
-            end
+            },
+            { name = 'luasnip' }, -- For luasnip users.
         },
-        { name = 'luasnip' }, -- For luasnip users.
-    },
-    {
-        { name = 'buffer' },
-        { name = 'path' },
-    }),
+        {
+            { name = 'buffer' },
+            { name = 'path' },
+        }),
 })
 
 -- Set configuration for specific filetype.
 cmp.setup.filetype('gitcommit', {
     sources = cmp.config.sources({
-        { name = 'git' }, -- You can specify the `git` source if [you were installed it](https://github.com/petertriho/cmp-git).
-    },
-    {
-        { name = 'buffer' },
-    })
+            { name = 'git' }, -- You can specify the `git` source if [you were installed it](https://github.com/petertriho/cmp-git).
+        },
+        {
+            { name = 'buffer' },
+        })
 })
 
 -- Use buffer source for `/` and `?` (if you enabled `native_menu`, this won't work anymore).
@@ -500,9 +529,9 @@ cmp.setup.cmdline({ '/', '?' }, {
 cmp.setup.cmdline(':', {
     mapping = cmp.mapping.preset.cmdline(),
     sources = cmp.config.sources({
-        { name = 'path' }
-    },
-    {
-        { name = 'cmdline' }
-    })
+            { name = 'path' }
+        },
+        {
+            { name = 'cmdline' }
+        })
 })

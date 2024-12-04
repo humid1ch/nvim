@@ -1,0 +1,50 @@
+BasedOnStyle: LLVM                              # 基于风格
+AccessModifierOffset: -4                        # 访问限定符额外偏移
+AllowAllArgumentsOnNextLine: true               # 在函数传参 或 初始化列表内容 不适合在同一行时, 允许参数或内容换到下一行
+AllowAllParametersOfDeclarationOnNextLine: true # 如果函数声明参数 不适合在同一行, 允许换到下一行
+AllowShortBlocksOnASingleLine: false            # 允许短块单独一行
+AllowShortCaseLabelsOnASingleLine: false        # 允许短 case 单独一行
+AllowShortFunctionsOnASingleLine: Empty         # 允许短函数 单独一行
+AllowShortIfStatementsOnASingleLine: false      # 允许 包含短return的块 单独一行 
+AllowShortLoopsOnASingleLine: false             # 允许 短循环单独一行
+AlwaysBreakTemplateDeclarations: true           # 模板参数和声明不在一行
+BinPackArguments: false                         # 如果为false, 函数传参 将总保持一行(不超出ColumnLimit) 或 各个参数独占一行
+BinPackParameters: false                        # 如果为false, 函数声明 定义参数 将总保持一行(不超出ColumnLimit) 或 各个参数独占一行
+BreakConstructorInitializers: BeforeComma       # 构造函数初始化列表的 ,符号
+BreakInheritanceList: BeforeComma               # 继承列表的 ,符号
+ColumnLimit: 128                                # 行字符限制
+ConstructorInitializerIndentWidth: 4            # 构造函数初始化列表缩进值
+ContinuationIndentWidth: 4                      # 行延续 缩进
+Cpp11BracedListStyle: false                     # 列表初始化, { 1, 2, 3 } 里两端的空格是否删除
+IndentCaseLabels: false                         # case 后块的缩进
+IndentWidth: 4                                  # 缩进宽度
+SpacesInContainerLiterals: true                 # 容器文字之间插入空格
+SpaceBeforeParens: ControlStatements            # 什么情况下 ( 前插入空格: 控制语句
+SpaceAfterCStyleCast: false                     # 强制类型转换)后插入空格
+SpaceBeforeAssignmentOperators: true            # 运算符前插入空格
+SpaceBeforeCpp11BracedList: false               # c++11 列表初始化时, { 前插入空格
+SpaceInEmptyBlock: false                        # 空块中插入空格
+MaxEmptyLinesToKeep: 1                          # 最多连续空行
+NamespaceIndentation: All                       # 命名空间缩进
+PointerAlignment: Left                          # 指针* 位置
+ReflowComments: false                           # 注释 遵循ColumnLimit
+SortIncludes: Never                             # 禁止 头文件排序
+TabWidth: 4                                     # Tab宽度
+UseTab: Always                                  # 使用Tab
+BreakBeforeBraces: Custom                       # 自定义 { 换行
+BraceWrapping:                                  
+    AfterClass: false                           # class定义后 { 换行
+    AfterCaseLabel: false                       # case后 { 换行
+    AfterControlStatement: false                # 控制语句后 { 换行 (if else while switch...)
+    AfterEnum: false                            # 枚举定义后 { 换行
+    AfterExternBlock: false                     # extern 块后 { 换行
+    AfterFunction: false                        # 函数定义后 { 换行
+    AfterNamespace: false                       # 命名空间后 { 换行
+    AfterObjCDeclaration: false                 
+    AfterStruct: false                          # struct定义后 { 换行
+    AfterUnion: false                           # union定义后 { 换行
+    BeforeCatch: true                           # catch前 } 换行
+    BeforeElse: true                            # else前 } 换行
+    BeforeLambdaBody: false                     # lambada主体前 } 换行
+    BeforeWhile: false                          # do{ } while 前的 } 换行
+    IndentBraces: false                         
