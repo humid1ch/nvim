@@ -15,3 +15,4 @@ require("config.autocmds")     -- 自动命令
 require("config.lazy")         -- 插件管理器（会自动加载 plugins/ 目录下的插件）
 require("config.lsp")          -- LSP 配置
 require("config.cmp")          -- 补全配置
+require("filetype.cangjie")
