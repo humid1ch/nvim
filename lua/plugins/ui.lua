@@ -16,6 +16,59 @@ return {
                 transparent = true,
                 solid = true
             },
+            custom_highlights = function(colors)
+                return {
+                    -- 代码块
+                    MarkviewCodeInfo = { fg = "#939ab7", bg = "#373b54" },
+                    MarkviewCodeFg = { fg = "#373b54" },
+                    
+                    -- 行内代码
+                    MarkviewInlineCode = { bg = "#3f435e" },
+
+                    -- Palette 系列(用于标题、引用等)
+                    MarkviewPalette0 = { fg = "#9399b6", bg = "#2e3247" },
+                    MarkviewPalette0Bg = { bg = "#2e3247" },
+--                     MarkviewPalette0Sign = { fg = "#9399b6", bg = "#242639" },
+                    MarkviewPalette0Sign = { fg = "#9399b6" },
+                    
+                    MarkviewPalette1 = { fg = "#ed8695", bg = "#343044" },
+                    MarkviewPalette1Bg = { bg = "#343044" },
+                    MarkviewPalette1Sign = { fg = "#ed8695" },
+                    
+                    MarkviewPalette2 = { fg = "#f5a87e", bg = "#343342" },
+                    MarkviewPalette2Bg = { bg = "#343342" },
+                    MarkviewPalette2Sign = { fg = "#f5a87e" },
+                    
+                    MarkviewPalette3 = { fg = "#eed39e", bg = "#343645" },
+                    MarkviewPalette3Bg = { bg = "#343645" },
+                    MarkviewPalette3Sign = { fg = "#eed39e" },
+                    
+                    MarkviewPalette4 = { fg = "#a6d994", bg = "#2f3644" },
+                    MarkviewPalette4Bg = { bg = "#2f3644" },
+                    MarkviewPalette4Sign = { fg = "#a6d994" },
+                    
+                    MarkviewPalette5 = { fg = "#7dc3e3", bg = "#2d344a" },
+                    MarkviewPalette5Bg = { bg = "#2d344a" },
+                    MarkviewPalette5Sign = { fg = "#7dc3e3" },
+                    
+                    MarkviewPalette6 = { fg = "#b7bcf7", bg = "#30344b" },
+                    MarkviewPalette6Bg = { bg = "#30344b" },
+                    MarkviewPalette6Sign = { fg = "#b7bcf7" },
+                    
+                    MarkviewPalette7 = { fg = "#c69ff5", bg = "#31324b" },
+                    MarkviewPalette7Bg = { bg = "#31324b" },
+                    MarkviewPalette7Sign = { fg = "#c69ff5" },
+                    
+                    -- Icon 背景
+                    MarkviewIcon0 = { fg = "#9399b6", bg = "#373b54" },
+                    MarkviewIcon1 = { fg = "#ed8695", bg = "#373b54" },
+                    MarkviewIcon2 = { fg = "#f5a87e", bg = "#373b54" },
+                    MarkviewIcon3 = { fg = "#eed39e", bg = "#373b54" },
+                    MarkviewIcon4 = { fg = "#a6d994", bg = "#373b54" },
+                    MarkviewIcon5 = { fg = "#7dc3e3", bg = "#373b54" },
+                    MarkviewIcon6 = { fg = "#b7bcf7", bg = "#373b54" },
+                }
+            end
         },
         config = function(_, opts)
             require("catppuccin").setup(opts)
@@ -37,8 +90,8 @@ return {
             lualine.setup({
                 options = {
                     theme = luaTheme,
-                  --  section_separators = { left = '', right = '' },
-                  --  component_separators = { left = '', right = '' }
+                    --  section_separators = { left = '', right = '' },
+                    --  component_separators = { left = '', right = '' }
                     section_separators = { left = '', right = '' },
                     component_separators = { left = '', right = '' }
                 }
@@ -184,5 +237,65 @@ return {
                 },
             })
         end,
+    },
+    {
+        "stevearc/aerial.nvim",
+        lazy = false,
+        dependencies = {
+            "nvim-treesitter/nvim-treesitter",
+            "nvim-tree/nvim-web-devicons"
+        },
+        config = function()
+            require("aerial").setup({
+                -- 布局设置
+                layout = {
+                    max_width = { 40, 0.2 },
+                    width = 30,
+                    min_width = 20,
+                    default_direction = "prefer_left", -- 在右侧打开
+                    resize_to_content = true,
+                },
+                
+                -- 自动打开(可选)
+                on_attach = function(bufnr)
+                    -- 快捷键导航
+                    vim.keymap.set("n", "{", "<cmd>AerialPrev<CR>", {buffer = bufnr, desc = "上一个标题"})
+                    vim.keymap.set("n", "}", "<cmd>AerialNext<CR>", {buffer = bufnr, desc = "下一个标题"})
+                end,
+                
+                -- Markdown 特殊配置
+                filter_kind = false, -- 显示所有级别的标题
+                
+                -- 图标
+                icons = {
+                    -- Markdown 标题图标
+                    Interface =  "󰉳",
+                },
+
+                -- 高亮设置
+                highlight_mode = "split_width",
+                highlight_closest = true,
+                highlight_on_jump = 300,
+                
+                -- 折叠
+                manage_folds = false,
+
+                -- 浮动窗口设置
+                float = {
+                  border = "rounded",
+                  relative = "cursor",
+                  max_height = 0.9,
+                  min_height = { 8, 0.1 },
+                },
+              
+                -- Markdown 更新延迟
+                markdown = {
+                  update_delay = 300,
+                },
+            })
+        end,
+        keys = {
+                { "<leader>o", "<cmd>AerialToggle!<CR>", desc = "大纲切换" },
+        },
     },
 }

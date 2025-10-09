@@ -3,7 +3,7 @@
 
 -- Only load this file once per buffer
 if vim.b.did_ftplugin then
-  return
+    return
 end
 vim.b.did_ftplugin = 1
 
@@ -47,16 +47,16 @@ vim.bo.comments = "s1:/*,mb:*,ex:*/,://"
 
 -- Undo ftplugin settings when switching to another filetype
 vim.b.undo_ftplugin = table.concat({
-  "setlocal commentstring<",
-  "setlocal comments<",
-  "setlocal expandtab<",
-  "setlocal shiftwidth<",
-  "setlocal tabstop<",
-  "setlocal softtabstop<",
-  "setlocal autoindent<",
-  "setlocal smartindent<",
-  "setlocal formatoptions<",
-  "setlocal suffixesadd<",
+    "setlocal commentstring<",
+    "setlocal comments<",
+    "setlocal expandtab<",
+    "setlocal shiftwidth<",
+    "setlocal tabstop<",
+    "setlocal softtabstop<",
+    "setlocal autoindent<",
+    "setlocal smartindent<",
+    "setlocal formatoptions<",
+    "setlocal suffixesadd<",
 }, " | ")
 
 -- Optional: Define text objects for functions, classes, etc.

@@ -8,8 +8,8 @@
 
 -- 让 .mdx 文件识别为 markdown
 vim.api.nvim_create_autocmd({"BufRead", "BufNewFile"}, {
-  pattern = "*.mdx",
-  command = "set filetype=markdown"
+    pattern = "*.mdx",
+    command = "set filetype=markdown"
 })
 
 -- 将 .hpp 文件识别为 cpp 文件类型

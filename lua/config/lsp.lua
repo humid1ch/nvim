@@ -14,11 +14,35 @@ require("mason-lspconfig").setup()
 -- 获取补全能力
 local capabilities = require('cmp_nvim_lsp').default_capabilities()
 
--- LSP 配置
-local lspconfig = require('lspconfig')
+-- -- LSP 配置
+-- local lspconfig = require('lspconfig')
+-- 
+-- -- Lua Language Server
+-- lspconfig.lua_ls.setup({
+--     capabilities = capabilities,
+--     settings = {
+--         Lua = {
+--             diagnostics = {
+--                 enable = true,
+--                 disable = { "unused-local", "unused-function", "unused-vararg" },
+--                 globals = { "vim" }
+--             },
+--             workspace = {
+--                 checkThirdParty = false
+--             }
+--         }
+--     }
+-- })
+-- 
+-- -- ============================================================================
+-- -- C/C++ Language Server (clangd)
+-- -- ============================================================================
+-- lspconfig.clangd.setup({
+--     capabilities = capabilities,
+-- })
 
 -- Lua Language Server
-lspconfig.lua_ls.setup({
+vim.lsp.config('lua_ls', {
     capabilities = capabilities,
     settings = {
         Lua = {
@@ -37,6 +61,6 @@ lspconfig.lua_ls.setup({
 -- ============================================================================
 -- C/C++ Language Server (clangd)
 -- ============================================================================
-lspconfig.clangd.setup({
+vim.lsp.config('clangd', {
     capabilities = capabilities,
 })

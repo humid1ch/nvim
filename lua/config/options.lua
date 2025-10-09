@@ -4,6 +4,10 @@
 
 local set = vim.opt
 
+-- 设置 leader 键
+vim.g.mapleader = "/"
+vim.g.maplocalleader = "/"
+
 -- 行号设置
 set.number = true             -- 显示行号
 set.relativenumber = true     -- 显示相对行号

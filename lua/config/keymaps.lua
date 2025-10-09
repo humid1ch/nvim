@@ -31,8 +31,8 @@ vim.keymap.set("n", "k", [[v:count ? 'k' : 'gk']], { noremap = true, expr = true
 -- ============================================================================
 
 -- NvimTree 文件管理器
-vim.keymap.set("n", "nf", ":NvimTreeFocus<CR>", mapOpt) -- 聚焦
-vim.keymap.set("n", "no", ":NvimTreeOpen<CR>", mapOpt)  -- 打开
+vim.keymap.set("n", "tf", ":NvimTreeFocus<CR>", mapOpt) -- 聚焦
+vim.keymap.set("n", "to", ":NvimTreeOpen<CR>", mapOpt)  -- 打开
 
 -- BufferLine 标签页切换
 vim.keymap.set("n", "<C-j>", ":BufferLineCyclePrev<CR>", mapOpt) -- 上一个标签

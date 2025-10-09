@@ -55,6 +55,26 @@ return {
     {
         "OXY2DEV/markview.nvim",
         lazy = false,
+        dependencies = {
+            "nvim-treesitter/nvim-treesitter",
+            "nvim-tree/nvim-web-devicons",
+        },
+        config = function()
+            local presets = require("markview.presets");
+
+            require("markview").setup({
+                preview = {
+                    icon_provider = 'devicons',
+                    modes = {'n', 'v', 'c'},  -- 启用预览的模式
+                    hybrid_modes = {'n', 'v'}, -- 启用混合模式的模式
+                    enable_hybrid_mode = true, -- 默认关闭混合模式
+                    linewise_hybrid_mode = true -- 默认开启行级模式
+                },
+                markdown = {
+                    headings = presets.headings.simple,
+                },
+            });
+        end,
     },
     {
         "lukas-reineke/indent-blankline.nvim",
