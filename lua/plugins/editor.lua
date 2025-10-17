@@ -68,12 +68,24 @@ return {
                     modes = {'n', 'v', 'c'},  -- 启用预览的模式
                     hybrid_modes = {'n', 'v'}, -- 启用混合模式的模式
                     enable_hybrid_mode = true, -- 默认关闭混合模式
-                    linewise_hybrid_mode = true -- 默认开启行级模式
+                    linewise_hybrid_mode = true, -- 默认开启行级模式
                 },
                 markdown = {
                     headings = presets.headings.simple,
                 },
-            });
+                -- 添加代码块配置
+            -- 添加代码块配置（移除 language_names）
+            code_blocks = {
+                enable = true,
+                style = "language",
+                hl_mode = "treesitter",
+            },
+        
+        });
+
+        -- 注册 Cangjie 语言到 treesitter
+        vim.treesitter.language.register('cangjie', 'cangjie')
+        vim.treesitter.language.register('cangjie', 'cj')
         end,
     },
     {

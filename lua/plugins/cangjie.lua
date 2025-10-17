@@ -59,5 +59,29 @@ return {
             end
             return opts
         end,
+--         config = function(_, opts)
+--             -- 应用基本配置
+--             require('nvim-treesitter.configs').setup(opts)
+--             
+--             -- 添加 Cangjie 解析器配置
+--             local parser_config = require("nvim-treesitter.parsers").get_parser_configs()
+--             parser_config.cangjie = {
+--                 install_info = {
+--                     url = "C:/Users/humid1ch/tree-sitter-cangjie", -- 你的本地路径
+--                     files = {"src/parser.c"},
+--                     branch = "main",
+--                     generate_requires_npm = false,
+--                     requires_generate_from_grammar = false,
+--                 },
+--                 filetype = "cj",
+--             }
+--             
+--             -- 设置文件类型关联
+--             vim.filetype.add({
+--                 extension = {
+--                     cj = "cangjie",
+--                 },
+--             })
+--         end,
     },
 }

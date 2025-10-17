@@ -295,7 +295,7 @@ return {
             })
         end,
         keys = {
-                { "<leader>o", "<cmd>AerialToggle!<CR>", desc = "大纲切换" },
+                { "<A-o>", "<cmd>AerialToggle!<CR>", desc = "大纲切换" },
         },
     },
 }
