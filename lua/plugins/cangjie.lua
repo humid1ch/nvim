@@ -36,52 +36,41 @@ return {
     -- nvim-treesitter 配置
     {
         "nvim-treesitter/nvim-treesitter",
-        optional = true,
-        opts = function(_, opts)
-            opts = opts or {}
-            opts.highlight = opts.highlight or {}
-            opts.highlight.enable = true
-            -- 为 Cangjie 禁用 treesitter,使用 vim 语法
-            local disable = opts.highlight.disable or {}
-            if type(disable) == "function" then
-                local old_disable = disable
-                opts.highlight.disable = function(lang, buf)
-                    if lang == "cangjie" then
-                        return true
-                    end
-                    return old_disable(lang, buf)
-                end
-            elseif type(disable) == "table" then
-                table.insert(disable, "cangjie")
-                opts.highlight.disable = disable
-            else
-                opts.highlight.disable = { "cangjie" }
-            end
-            return opts
+        dependencies={
+            "nvim-treesitter/nvim-treesitter-textobjects",
+        },
+        build = ":TSUpdate",
+        opts = {
+            ensure_installed = { "c", "cpp", "lua" },
+            sync_install = false,
+            auto_install = true,
+            highlight = {
+                enable = true,
+                additional_vim_regex_highlighting = false,
+            },
+            indent = { enable = true },
+            incremental_selection = { enable = true }
+        },
+        config = function(_, opts)
+            -- 注册自定义 parser
+            local parser_config = require("nvim-treesitter.parsers").get_parser_configs()
+            parser_config.cangjie = {
+                install_info = {
+                    url = "C:\\Users\\humid1ch\\tree-sitter-cangjie", -- 确保能访问
+                    files = { "src/parser.c", "src/scanner.c" },
+                    branch = "main",
+                    generate_requires_npm = false,
+                    requires_generate_from_grammar = false, -- 避免安装失败
+                },
+                filetype = "cangjie",
+            }
+
+            require("nvim-treesitter.configs").setup(opts)
+
+            -- 注册 filetype 映射
+            -- 🔹 注册语言别名
+            vim.treesitter.language.register('cangjie', 'cangjie')
+            vim.treesitter.language.register('cangjie', 'cj')
         end,
---         config = function(_, opts)
---             -- 应用基本配置
---             require('nvim-treesitter.configs').setup(opts)
---             
---             -- 添加 Cangjie 解析器配置
---             local parser_config = require("nvim-treesitter.parsers").get_parser_configs()
---             parser_config.cangjie = {
---                 install_info = {
---                     url = "C:/Users/humid1ch/tree-sitter-cangjie", -- 你的本地路径
---                     files = {"src/parser.c"},
---                     branch = "main",
---                     generate_requires_npm = false,
---                     requires_generate_from_grammar = false,
---                 },
---                 filetype = "cj",
---             }
---             
---             -- 设置文件类型关联
---             vim.filetype.add({
---                 extension = {
---                     cj = "cangjie",
---                 },
---             })
---         end,
     },
 }

@@ -73,19 +73,15 @@ return {
                 markdown = {
                     headings = presets.headings.simple,
                 },
-                -- 添加代码块配置
-            -- 添加代码块配置（移除 language_names）
-            code_blocks = {
-                enable = true,
-                style = "language",
-                hl_mode = "treesitter",
-            },
+                -- 添加代码块配置（移除 language_names）
+                code_blocks = {
+                    enable = true,
+                    style = "language",
+                    hl_mode = "treesitter",
+                },
         
         });
 
-        -- 注册 Cangjie 语言到 treesitter
-        vim.treesitter.language.register('cangjie', 'cangjie')
-        vim.treesitter.language.register('cangjie', 'cj')
         end,
     },
     {
