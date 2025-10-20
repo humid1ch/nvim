@@ -56,7 +56,7 @@ return {
             local parser_config = require("nvim-treesitter.parsers").get_parser_configs()
             parser_config.cangjie = {
                 install_info = {
-                    url = "C:\\Users\\humid1ch\\tree-sitter-cangjie", -- 确保能访问
+                    url = "https://gitcode.com/Cangjie-SIG/tree-sitter-cangjie", -- 确保能访问
                     files = { "src/parser.c", "src/scanner.c" },
                     branch = "main",
                     generate_requires_npm = false,
