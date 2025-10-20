@@ -298,4 +298,10 @@ return {
                 { "<A-o>", "<cmd>AerialToggle!<CR>", desc = "大纲切换" },
         },
     },
+    {
+        "norcalli/nvim-colorizer.lua",
+        config = function()
+            require'colorizer'.setup()
+        end,
+    }, -- 颜色显示
 }
